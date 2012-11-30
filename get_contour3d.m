@@ -1,4 +1,4 @@
-function [s_space, actr, ctr, energy, positions] = get_contour3d(ctr1, ctr2, im, m)
+function actr = get_contour3d(ctr1, ctr2, im, m)
   [s_space, pixels] = search_space(ctr1, ctr2, m, im);
   n = size(s_space)(2);
   actr = zeros(n, 2);
