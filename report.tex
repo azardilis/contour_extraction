@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{hyperref}
+\usepackage{fullpage}
+\usepackage{url}
+\author{Argyris Zardilis\\ \texttt{az2g10@ecs.soton.ac.uk}}
+\title{Image contour extraction with dynamic programming}
+\begin{document}
+\maketitle
+
+\section{Approach}
+The aim of this coursework was to implemetn an algorithm for the extraction of contours in grey-scale images. The search space for this extraction was to be confined between 2 initial active contours bounding the search to a part of the image and therefore reducing the computational cost associated with the algorithm. The search space was seen as a grid with each cell containing intensity of a pixel on the actual image. The goals therefore became to traverse this grid with the minimum energy, defined as a combination of the continuity between adjacent points on the contour and the intensity of these points. This reduced the problem to an optimisation problem, the goal being to finf the path through the grid to minimise the energy objective function. Because of the combinatorial complexity of enumerating all possible paths and finding the best one(the one that minimises the energy function), the dynamic programming approach was followed so that the solution and the global optimal path could be build iteratively by combining solutions(optimal paths) to smaller instances of the problem. To do that 2 matrices were needed, one for keeping all the intermediate scores to be reused in later computations and a position matrix keeping track of the best solution in the previous step so that we could backtrack once the last step was taken to recreate the actual optimal contour. The algorithm was developed in Octave and the results are discussed in the next section.
+\section{Results}
+The algorithm developed was tested with the tongue x-ray example and with the initial contours as given in the coursework specification. It was first tested with algorithm parameter $\lambda=0.5$ which makes the continuity characteristic of the solution as important as the intensity along the solution. The algorithm was able to extract the required contour (tongue) quite well as long as the value of $m$ was large enough(more on the effect of $m$ in a subsequent section). 
+\subsection{Influence of algorithm parameter on result}
+The algorithm was then tested with a set of different values for the algorithm's parameter $\lambda$. The results obtained can be seen in Figure N. It was observed that the algorithm is quite robust to changes in $\lambda$ as it is able to extract the required contour for values $\mathbf{L}=\{0.3, 0.5, 0.7\}$ . As expected the parameter choice of $\lambda=0.1$ or $\lambda=0.9$ don't work well. The choice of $0.9$ gives a lot more significance to the continuity of the solution that's why it completely missed the contour with the lower intensity values. The choice of $0.1$ favours the lower intensity values along the way a lot more than the continuity of the solution and that doesn't work either.
+\subsection{Influence of algorithm input size}
+The input size of the algorithm is the amount of points taken between each 2 points on the active initial contours to form the search space. The algorithm has 3 nested loops so it looks at first like an $O(n^3)$ algorithm but it really is an $O(n * m^2)$ algorithm with $n$ being the number of points on the initial contours and $m$ the points sampled between each two points on the initial contours. That means that the algorithm should approximately behave like a quadratic one as $m$ varies. A log-log plot of the running times verifies that claim as it has a gradient of $\approx 2$
+\subsection{Influnce of choice of initial contours}
+\subsection{Other images}
+The developed algorithm was further tested with other images to demonstrate that its behaviour persists on other images other than the one it was developed on. Examples can be seen in Figure N.
+\section{Possible improvements}
+
+
+
+\end{document}
